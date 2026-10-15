@@ -1,0 +1,34 @@
+# Secrets
+.env
+*.env.local
+
+# Python
+.venv/
+venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# Runtime data
+backend/chroma_db/
+*.sqlite
+*.sqlite-shm
+*.sqlite-wal
+*.db
+backend/data/*.pdf
+
+# Node
+node_modules/
+dist/
+
+# Editors / OS
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# Personal working notes
+AI_LOG_NOTES.md
+PROJECT_PLAN_AND_PROMPT.md
