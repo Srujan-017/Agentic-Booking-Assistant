@@ -74,6 +74,7 @@ async def guardrail_node(state: AgentState) -> dict:
         return {
             "intent": "blocked",
             "active_node": "guardrail",
+            "citations": [],
             "messages": [AIMessage(content=REFUSAL_REPLY)],
         }
 

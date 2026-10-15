@@ -32,7 +32,10 @@ async def router_node(state: AgentState) -> dict:
     llm = get_router_llm().with_structured_output(RouteDecision)
     decision: RouteDecision = await llm.ainvoke([SystemMessage(content=system), *history])
 
-    update: dict = {"intent": decision.intent, "active_node": "router"}
+    # Citations reflect only the current turn's RAG lookup, if any. Clear
+    # them here so a non-faq turn (booking/general) doesn't re-display a
+    # stale citation from an earlier, unrelated question.
+    update: dict = {"intent": decision.intent, "active_node": "router", "citations": []}
     if decision.intent == "mixed":
         update["faq_question"] = decision.faq_question
     else:
