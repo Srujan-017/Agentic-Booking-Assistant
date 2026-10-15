@@ -12,8 +12,8 @@ class Settings(BaseSettings):
     )
 
     groq_api_key: str = ""
-    llm_model: str = "llama-3.3-70b-versatile"
-    router_model: str = "llama-3.1-8b-instant"
+    llm_model: str = "openai/gpt-oss-120b"
+    router_model: str = "openai/gpt-oss-20b"
     embedding_model: str = "BAAI/bge-small-en-v1.5"
 
     chroma_dir: str = "./chroma_db"
