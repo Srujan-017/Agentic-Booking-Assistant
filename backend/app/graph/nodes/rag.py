@@ -1,11 +1,23 @@
 from __future__ import annotations
 
+import re
+
 from langchain_core.messages import AIMessage, SystemMessage
 
 from app.graph.llm import get_main_llm
 from app.graph.prompts import RAG_SYSTEM
 from app.graph.state import AgentState, Citation
 from app.rag.retriever import get_retriever
+
+# Deterministic safety net: the prompt tells the model never to echo the
+# <context> markup used to wrap retrieved excerpts, but that's a probabilistic
+# instruction an LLM can still ignore (observed in testing on some queries).
+# Strip it outright rather than relying on the prompt alone.
+_CONTEXT_TAG_RE = re.compile(r"</?context>", re.IGNORECASE)
+
+
+def _strip_context_tags(text: str) -> str:
+    return _CONTEXT_TAG_RE.sub("", text).strip()
 
 
 def _last_user_text(state: AgentState) -> str:
@@ -39,7 +51,7 @@ async def rag_node(state: AgentState) -> dict:
     response = await llm.ainvoke([SystemMessage(content=system), {"role": "user", "content": question}])
 
     return {
-        "messages": [AIMessage(content=response.content)],
+        "messages": [AIMessage(content=_strip_context_tags(response.content))],
         "citations": citations,
         "active_node": "rag",
     }
