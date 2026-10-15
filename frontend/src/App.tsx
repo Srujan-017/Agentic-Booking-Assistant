@@ -1,12 +1,46 @@
+import { useState } from "react";
+import { ChatWindow } from "./components/ChatWindow";
+import { Composer } from "./components/Composer";
+import { SlotsPanel } from "./components/SlotsPanel";
+import { ThreadHeader } from "./components/ThreadHeader";
+import { useChat } from "./hooks/useChat";
+import { useHealth } from "./hooks/useHealth";
+
 function App() {
+  const chat = useChat();
+  const connection = useHealth();
+  const [slotsOpen, setSlotsOpen] = useState(false);
+
   return (
-    <main className="min-h-screen flex items-center justify-center bg-slate-50 p-4">
-      <div className="rounded-2xl bg-white p-8 shadow-sm ring-1 ring-slate-200 text-center">
-        <h1 className="text-2xl font-semibold text-slate-800">Agentic Booking &amp; Policy Assistant</h1>
-        <p className="mt-2 text-slate-500">Frontend scaffold is running. The chat UI arrives in Phase 5.</p>
+    <div className="flex h-screen flex-col bg-slate-100">
+      <ThreadHeader
+        threadId={chat.threadId}
+        connection={connection}
+        onNewChat={chat.newChat}
+        onToggleSlots={() => setSlotsOpen((v) => !v)}
+      />
+
+      <div className="flex min-h-0 flex-1">
+        <div className="flex min-w-0 flex-1 flex-col">
+          <ChatWindow
+            messages={chat.messages}
+            status={chat.status}
+            error={chat.error}
+            restoring={chat.restoring}
+            onRetry={chat.retry}
+          />
+          <Composer disabled={chat.status === "thinking"} onSend={chat.send} />
+        </div>
+
+        <SlotsPanel
+          slots={chat.slots}
+          booking={chat.booking}
+          open={slotsOpen}
+          onClose={() => setSlotsOpen(false)}
+        />
       </div>
-    </main>
-  )
+    </div>
+  );
 }
 
-export default App
+export default App;
