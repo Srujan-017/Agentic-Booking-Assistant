@@ -1,0 +1,111 @@
+event: node
+data: {"node": "guardrail"}
+
+event: node
+data: {"node": "router"}
+
+event: token
+data: {"node": "rag", "text": "The"}
+
+event: token
+data: {"node": "rag", "text": " complaint"}
+
+event: token
+data: {"node": "rag", "text": " procedure"}
+
+event: token
+data: {"node": "rag", "text": " includes"}
+
+event: token
+data: {"node": "rag", "text": " three"}
+
+event: token
+data: {"node": "rag", "text": " steps"}
+
+event: token
+data: {"node": "rag", "text": ":"}
+
+event: token
+data: {"node": "rag", "text": " contacting"}
+
+event: token
+data: {"node": "rag", "text": " Human"}
+
+event: token
+data: {"node": "rag", "text": " Resources"}
+
+event: token
+data: {"node": "rag", "text": ","}
+
+event: token
+data: {"node": "rag", "text": " emailing"}
+
+event: token
+data: {"node": "rag", "text": " the"}
+
+event: token
+data: {"node": "rag", "text": " Compliance"}
+
+event: token
+data: {"node": "rag", "text": " Officer"}
+
+event: token
+data: {"node": "rag", "text": ","}
+
+event: token
+data: {"node": "rag", "text": " or"}
+
+event: token
+data: {"node": "rag", "text": " calling"}
+
+event: token
+data: {"node": "rag", "text": " the"}
+
+event: token
+data: {"node": "rag", "text": " Compliance"}
+
+event: token
+data: {"node": "rag", "text": " Hotline"}
+
+event: token
+data: {"node": "rag", "text": " ("}
+
+event: token
+data: {"node": "rag", "text": "Employee"}
+
+event: token
+data: {"node": "rag", "text": " Handbook"}
+
+event: token
+data: {"node": "rag", "text": ","}
+
+event: token
+data: {"node": "rag", "text": " p"}
+
+event: token
+data: {"node": "rag", "text": "."}
+
+event: token
+data: {"node": "rag", "text": "\u202f"}
+
+event: token
+data: {"node": "rag", "text": "8"}
+
+event: token
+data: {"node": "rag", "text": ")."}
+
+event: node
+data: {"node": "rag"}
+
+event: message
+data: {"node": "rag", "text": "The complaint procedure includes three steps: contacting Human Resources, emailing the Compliance Officer, or calling the Compliance Hotline (Employee Handbook, p.\u202f8)."}
+
+event: citations
+data: [{"page": 8, "source": "Employee Handbook", "snippet": "A whistleblower is an individual who reports activities that are illegal, unethical, or \notherwise not in accordance with company policy. \nReporting Procedures: \nIf you witness any activity that you b"}, {"page": 4, "source": "Employee Handbook", "snippet": "development. During the review, your supervisor will discuss your performance over the \npast year and provide feedback on areas for improvement. They will also provide you with \nan opportunity to disc"}, {"page": 11, "source": "Employee Handbook", "snippet": "15. Director of Research and Development \n16. Director of Product Management \n17. Senior Manager of Sales \n18. Senior Manager of Marketing \n19. Senior Manager of Operations \n20. Senior Manager of Huma"}, {"page": 6, "source": "Employee Handbook", "snippet": "tolerance policy. \nWe are committed to creating a safe and secure work environment for all of our employees. \nBy following the guidelines outlined in this program, we can ensure that our workplace is "}]
+
+event: booking
+data: {}
+
+event: done
+data: {"thread_id": "9734d5df-ba9f-41a4-a43c-b0c57db87424"}
+

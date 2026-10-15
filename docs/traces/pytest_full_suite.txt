@@ -1,0 +1,52 @@
+﻿============================= test session starts =============================
+platform win32 -- Python 3.11.9, pytest-9.1.1, pluggy-1.7.0 -- C:\Users\vsruj\OneDrive\Desktop\agentic-booking-assistant\backend\.venv\Scripts\python.exe
+cachedir: .pytest_cache
+rootdir: C:\Users\vsruj\OneDrive\Desktop\agentic-booking-assistant\backend
+configfile: pytest.ini
+plugins: anyio-4.15.1, langsmith-0.14.9, asyncio-1.4.0
+asyncio: mode=Mode.AUTO, debug=False, asyncio_default_fixture_loop_scope=None, asyncio_default_test_loop_scope=function
+collecting ... collected 35 items
+
+tests/test_api.py::test_health PASSED                                    [  2%]
+tests/test_api.py::test_list_slots PASSED                                [  5%]
+tests/test_api.py::test_list_bookings_starts_empty PASSED                [  8%]
+tests/test_api.py::test_chat_generates_thread_id_when_omitted PASSED     [ 11%]
+tests/test_api.py::test_chat_rejects_empty_message PASSED                [ 14%]
+tests/test_api.py::test_chat_rejects_oversized_message PASSED            [ 17%]
+tests/test_api.py::test_thread_state_404_for_unknown_thread PASSED       [ 20%]
+tests/test_api.py::test_full_booking_flow_persists_and_is_readable PASSED [ 22%]
+tests/test_api.py::test_chat_stream_emits_done_event PASSED              [ 25%]
+tests/test_api.py::test_chat_stream_delivers_a_reply_with_no_llm_call_behind_it PASSED [ 28%]
+tests/test_booking_tools.py::test_get_available_slots_tool_lists_slots PASSED [ 31%]
+tests/test_booking_tools.py::test_book_slot_tool_confirms_booking PASSED [ 34%]
+tests/test_graph_interleaving.py::test_sample_dialogue_context_interleaving PASSED [ 37%]
+tests/test_graph_interleaving.py::test_state_persists_across_a_rebuilt_graph PASSED [ 40%]
+tests/test_graph_interleaving.py::test_invalid_email_is_rejected_and_reprompted PASSED [ 42%]
+tests/test_graph_interleaving.py::test_prompt_injection_attempt_is_blocked PASSED [ 45%]
+tests/test_graph_interleaving.py::test_out_of_document_question_says_not_covered PASSED [ 48%]
+tests/test_ingest.py::test_vectorstore_has_chunks PASSED                 [ 51%]
+tests/test_ingest.py::test_retrieves_performance_review_policy_with_page_number PASSED [ 54%]
+tests/test_output_guard.py::test_ordinary_reply_passes_through_unchanged PASSED [ 57%]
+tests/test_output_guard.py::test_leaked_rag_system_prompt_is_blocked PASSED [ 60%]
+tests/test_output_guard.py::test_leaked_booking_system_prompt_is_blocked PASSED [ 62%]
+tests/test_output_guard.py::test_leaked_router_system_prompt_is_blocked PASSED [ 65%]
+tests/test_output_guard.py::test_leaked_general_system_prompt_is_blocked PASSED [ 68%]
+tests/test_output_guard.py::test_mentioning_the_word_system_prompt_casually_is_not_blocked PASSED [ 71%]
+tests/test_rag_node.py::test_strips_context_tags_from_both_ends PASSED   [ 74%]
+tests/test_rag_node.py::test_leaves_ordinary_text_unchanged PASSED       [ 77%]
+tests/test_rag_node.py::test_is_case_insensitive_and_handles_stray_tags_anywhere PASSED [ 80%]
+tests/test_slot_store.py::test_seeds_at_least_minimum_upcoming_slots PASSED [ 82%]
+tests/test_slot_store.py::test_seeded_labels_look_right PASSED           [ 85%]
+tests/test_slot_store.py::test_init_db_is_idempotent_and_future_safe PASSED [ 88%]
+tests/test_slot_store.py::test_book_slot_succeeds_and_returns_reference_id PASSED [ 91%]
+tests/test_slot_store.py::test_double_booking_the_same_slot_is_rejected PASSED [ 94%]
+tests/test_slot_store.py::test_booking_unknown_slot_fails_cleanly PASSED [ 97%]
+tests/test_slot_store.py::test_list_bookings_reflects_confirmed_booking PASSED [100%]
+
+============================== warnings summary ===============================
+app\rag\retriever.py:6
+  C:\Users\vsruj\OneDrive\Desktop\agentic-booking-assistant\backend\app\rag\retriever.py:6: DeprecationWarning: `langchain-community` is being sunset and is no longer actively maintained. See https://github.com/langchain-ai/langchain-community/issues/674 for details and migration guidance toward standalone integration packages.
+    from langchain_community.embeddings import FastEmbedEmbeddings
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+================== 35 passed, 1 warning in 123.77s (0:02:03) ==================
