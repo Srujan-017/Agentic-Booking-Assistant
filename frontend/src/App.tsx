@@ -24,6 +24,8 @@ function App() {
         <div className="flex min-w-0 flex-1 flex-col">
           <ChatWindow
             messages={chat.messages}
+            streamingMessages={chat.streamingMessages}
+            nodePath={chat.nodePath}
             status={chat.status}
             error={chat.error}
             restoring={chat.restoring}

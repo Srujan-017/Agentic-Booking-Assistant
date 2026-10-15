@@ -3,6 +3,7 @@ import remarkGfm from "remark-gfm";
 import type { ChatMessage } from "../hooks/useChat";
 import { BookingCard } from "./BookingCard";
 import { CitationChips } from "./CitationChips";
+import { NodeBadge } from "./NodeBadge";
 
 export function MessageBubble({ message }: { message: ChatMessage }) {
   const isUser = message.role === "user";
@@ -25,6 +26,11 @@ export function MessageBubble({ message }: { message: ChatMessage }) {
         </div>
         {!isUser && message.citations && <CitationChips citations={message.citations} />}
         {!isUser && message.booking && <BookingCard booking={message.booking} />}
+        {!isUser && message.nodePath && (
+          <div className="mt-1.5">
+            <NodeBadge path={message.nodePath} />
+          </div>
+        )}
       </div>
     </div>
   );

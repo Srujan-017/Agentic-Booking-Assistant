@@ -131,3 +131,47 @@ async def test_chat_stream_emits_done_event(client):
     assert done_payload["thread_id"]
     assert "token" in events
     assert "".join(json.loads(t)["text"] for t in events["token"])
+
+    # The node-badge trail: every node the graph passed through this turn,
+    # in order, including ones that never stream text (guardrail, router).
+    assert "node" in events
+    node_names = [json.loads(n)["node"] for n in events["node"]]
+    assert node_names[0] == "guardrail"
+    assert "router" in node_names
+
+
+async def test_chat_stream_delivers_a_reply_with_no_llm_call_behind_it(client):
+    """The booking confirmation line is a hardcoded AIMessage, not an LLM
+    call, so it produces no "token" events at all. Only the "message" event
+    (the node's authoritative final text) carries it — if that event were
+    missing, this reply would be silently dropped by any client that only
+    builds bubbles from "token" events, with no error anywhere."""
+    import json
+
+    thread_id = "stream-confirmation-thread"
+    await client.post(
+        "/api/chat", json={"thread_id": thread_id, "message": "Book me a Performance Review."}
+    )
+    await client.post(
+        "/api/chat",
+        json={"thread_id": thread_id, "message": "Priya Rao, priya.rao@example.com"},
+    )
+    slots = (await client.get("/api/slots")).json()
+    first_label = slots[0]["label"]
+
+    events: dict[str, list[str]] = {}
+    async with client.stream(
+        "POST", "/api/chat/stream", json={"thread_id": thread_id, "message": f"{first_label}, please."}
+    ) as response:
+        current_event = None
+        async for line in response.aiter_lines():
+            if line.startswith("event:"):
+                current_event = line.split(":", 1)[1].strip()
+            elif line.startswith("data:") and current_event:
+                events.setdefault(current_event, []).append(line.split(":", 1)[1].strip())
+
+    assert "message" in events
+    booking_messages = [
+        json.loads(m) for m in events["message"] if json.loads(m)["node"] == "booking"
+    ]
+    assert any("Confirmed" in m["text"] and "REV-" in m["text"] for m in booking_messages)

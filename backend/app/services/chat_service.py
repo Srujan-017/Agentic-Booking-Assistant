@@ -9,6 +9,7 @@ from __future__ import annotations
 
 from typing import Any
 
+from app.graph.output_guard import sanitize_reply
 from app.graph.state import BookingDraft
 
 
@@ -36,11 +37,12 @@ async def run_chat(graph: Any, thread_id: str, message: str) -> dict:
     # when an FAQ detour resumes a booking in the same turn).
     new_messages = result["messages"][before_count + 1 :]
     new_assistant = [m for m in new_messages if getattr(m, "type", None) == "ai"]
+    sanitized_contents = [sanitize_reply(m.content) for m in new_assistant]
 
     return {
         "thread_id": thread_id,
-        "reply": "\n\n".join(m.content for m in new_assistant),
-        "new_messages": [{"role": "assistant", "content": m.content} for m in new_assistant],
+        "reply": "\n\n".join(sanitized_contents),
+        "new_messages": [{"role": "assistant", "content": c} for c in sanitized_contents],
         "active_node": result.get("active_node", ""),
         "citations": result.get("citations", []),
         "booking": _serialize_booking(result.get("booking")),
@@ -54,7 +56,10 @@ async def get_thread_state(graph: Any, thread_id: str) -> dict | None:
         return None
 
     messages = [
-        {"role": _message_role(m), "content": m.content}
+        {
+            "role": (role := _message_role(m)),
+            "content": m.content if role == "user" else sanitize_reply(m.content),
+        }
         for m in state.values.get("messages", [])
     ]
 
